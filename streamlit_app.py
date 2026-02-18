@@ -129,8 +129,28 @@ elif page == "Rubric Editor":
     with tab2:
         st.subheader("Categories")
         
+        # Calculate subscore totals
+        logistics_total = sum(cat["max_points"] for cat in st.session_state.rubric["categories"] if cat["active"] and cat["subscore"] == "logistics")
+        human_element_total = sum(cat["max_points"] for cat in st.session_state.rubric["categories"] if cat["active"] and cat["subscore"] == "human_element")
+        
+        # Display subscore summary
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Logistics Total", f"{logistics_total} pts")
+        with col2:
+            st.metric("Human Element Total", f"{human_element_total} pts")
+        
+        st.divider()
+        
         for idx, category in enumerate(st.session_state.rubric["categories"]):
-            with st.expander(f"{category['label']} ({category['id']})"):
+            # Badge for subscore type
+            badge_color = "🔵" if category["subscore"] == "logistics" else "🟢"
+            badge_label = "Logistics" if category["subscore"] == "logistics" else "Human Element"
+            
+            # Status indicator
+            status = "✓ Active" if category["active"] else "○ Inactive"
+            
+            with st.expander(f"{badge_color} {category['label']} — {status}"):
                 col1, col2, col3 = st.columns(3)
                 
                 with col1:
