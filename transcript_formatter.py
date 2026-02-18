@@ -13,35 +13,86 @@ from pathlib import Path
 def format_transcript(transcript_data: dict) -> str:
     """
     Convert raw transcript JSON into a token-efficient formatted string.
+    Supports both AWS format (Transcript array at root) and website format (transcript.raw_content).
     Strips word-level Items arrays (which balloon token count from ~4k to ~30k+)
     while preserving all signal needed for rubric evaluation.
     """
     lines = []
 
-    call = transcript_data.get("call", {})
-    agent = transcript_data.get("agent", {})
-    client_info = transcript_data.get("client", {})
-    analysis = transcript_data.get("analysis", {})
+    # Detect format and extract data accordingly
+    is_aws_format = "Transcript" in transcript_data and isinstance(transcript_data.get("Transcript"), list)
+    
+    if is_aws_format:
+        # AWS format
+        call_id = transcript_data.get("JobName", "N/A")
+        duration_ms = transcript_data.get("ConversationCharacteristics", {}).get("TotalConversationDurationMillis", 0)
+        duration_secs = duration_ms // 1000
+        duration_mins = duration_secs // 60
+        duration_secs = duration_secs % 60
+        duration = f"{duration_mins} min, {duration_secs} secs"
+        
+        agent_name = "Agent"
+        client_name = "Customer"
+        client_location = "N/A"
+        
+        raw_content = transcript_data.get("Transcript", [])
+        
+        # Extract analysis data
+        conv_char = transcript_data.get("ConversationCharacteristics", {})
+        talk_time = conv_char.get("TalkTime", {}).get("DetailsByParticipant", {})
+        talk_speed = conv_char.get("TalkSpeed", {}).get("DetailsByParticipant", {})
+        sentiment = conv_char.get("Sentiment", {}).get("OverallSentiment", {})
+        
+        agent_talk_time_ms = talk_time.get("AGENT", {}).get("TotalTimeMillis", 0)
+        customer_talk_time_ms = talk_time.get("CUSTOMER", {}).get("TotalTimeMillis", 0)
+        agent_talk_time = f"{agent_talk_time_ms // 60000} min, {(agent_talk_time_ms % 60000) // 1000} secs"
+        customer_talk_time = f"{customer_talk_time_ms // 60000} min, {(customer_talk_time_ms % 60000) // 1000} secs"
+        
+        agent_wpm = talk_speed.get("AGENT", {}).get("AverageWordsPerMinute", "N/A")
+        customer_wpm = talk_speed.get("CUSTOMER", {}).get("AverageWordsPerMinute", "N/A")
+        
+        agent_sentiment = sentiment.get("AGENT", "N/A")
+        customer_sentiment = sentiment.get("CUSTOMER", "N/A")
+        
+    else:
+        # Website format
+        call = transcript_data.get("call", {})
+        agent = transcript_data.get("agent", {})
+        client_info = transcript_data.get("client", {})
+        analysis = transcript_data.get("analysis", {})
+        
+        call_id = call.get("call_id", "N/A")
+        duration = call.get("duration", "N/A")
+        agent_name = agent.get("name", "Agent")
+        client_name = client_info.get("name", "Customer")
+        client_location = client_info.get("location", "N/A")
+        
+        raw_content = transcript_data.get("transcript", {}).get("raw_content", [])
+        
+        agent_talk_time = analysis.get("agent_totaltalktime", "N/A")
+        customer_talk_time = analysis.get("client_totaltalktime", "N/A")
+        agent_wpm = analysis.get("agent_talkspeed", "N/A")
+        customer_wpm = analysis.get("client_talkspeed", "N/A")
+        agent_sentiment = analysis.get("agent_sentiment_avg", "N/A")
+        customer_sentiment = analysis.get("client_sentiment_avg", "N/A")
 
     lines.append("=== CALL METADATA ===")
-    lines.append(f"Call ID: {call.get('call_id', 'N/A')}")
-    lines.append(f"Duration: {call.get('duration', 'N/A')}")
-    lines.append(f"Agent: {agent.get('name', 'N/A')}")
-    lines.append(f"Client: {client_info.get('name', 'N/A')} ({client_info.get('location', 'N/A')})")
+    lines.append(f"Call ID: {call_id}")
+    lines.append(f"Duration: {duration}")
+    lines.append(f"Agent: {agent_name}")
+    lines.append(f"Client: {client_name} ({client_location})")
     lines.append("")
 
     lines.append("=== CALL ANALYSIS SUMMARY ===")
     lines.append(
-        f"Agent  — avg loudness: {analysis.get('agent_loudness_avg', 'N/A')} dB | "
-        f"avg sentiment: {analysis.get('agent_sentiment_avg', 'N/A')} | "
-        f"talk speed: {analysis.get('agent_talkspeed', 'N/A')} wpm | "
-        f"total talk time: {analysis.get('agent_totaltalktime', 'N/A')}"
+        f"Agent  — sentiment: {agent_sentiment} | "
+        f"talk speed: {agent_wpm} wpm | "
+        f"total talk time: {agent_talk_time}"
     )
     lines.append(
-        f"Client — avg loudness: {analysis.get('client_loudness_avg', 'N/A')} dB | "
-        f"avg sentiment: {analysis.get('client_sentiment_avg', 'N/A')} | "
-        f"talk speed: {analysis.get('client_talkspeed', 'N/A')} wpm | "
-        f"total talk time: {analysis.get('client_totaltalktime', 'N/A')}"
+        f"Client — sentiment: {customer_sentiment} | "
+        f"talk speed: {customer_wpm} wpm | "
+        f"total talk time: {customer_talk_time}"
     )
     lines.append("")
 
@@ -49,7 +100,6 @@ def format_transcript(transcript_data: dict) -> str:
     lines.append("(Format: [timestamp] ROLE | avg_loudness dB | SENTIMENT)")
     lines.append("")
 
-    raw_content = transcript_data.get("transcript", {}).get("raw_content", [])
     for turn in raw_content:
         role = turn.get("ParticipantRole", "UNKNOWN")
         content = turn.get("Content", "")
