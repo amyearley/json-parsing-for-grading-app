@@ -105,10 +105,14 @@ def format_transcript(transcript_data: dict) -> str:
         content = turn.get("Content", "")
         sentiment = turn.get("Sentiment", "UNKNOWN")
         loudness_scores = turn.get("LoudnessScores", [])
+        
+        # Filter out None values and calculate average
+        valid_scores = [s for s in loudness_scores if s is not None]
         avg_loudness = (
-            round(sum(loudness_scores) / len(loudness_scores), 1)
-            if loudness_scores else "N/A"
+            round(sum(valid_scores) / len(valid_scores), 1)
+            if valid_scores else "N/A"
         )
+        
         begin_ms = turn.get("BeginOffsetMillis", 0)
         minutes = begin_ms // 60000
         seconds = (begin_ms % 60000) // 1000
