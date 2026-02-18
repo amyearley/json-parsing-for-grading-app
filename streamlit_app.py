@@ -285,6 +285,7 @@ elif page == "Rubric Editor":
             styles = getSampleStyleSheet()
             title_style = styles['Heading1']
             heading_style = styles['Heading2']
+            subheading_style = styles['Heading3']
             normal_style = styles['Normal']
             
             story = []
@@ -292,12 +293,13 @@ elif page == "Rubric Editor":
             # Title
             story.append(Paragraph(st.session_state.rubric["_meta"]["rubric_name"], title_style))
             story.append(Paragraph(f"Version {st.session_state.rubric['_meta']['version']}", normal_style))
-            story.append(Spacer(1, 0.3*inch))
+            story.append(Spacer(1, 0.2*inch))
             
             # Metadata
             story.append(Paragraph("Metadata", heading_style))
             story.append(Paragraph(f"<b>Firm:</b> {st.session_state.rubric['_meta']['firm']}", normal_style))
-            story.append(Spacer(1, 0.1*inch))
+            story.append(Paragraph(f"<b>Scoring Note:</b> {st.session_state.rubric['_meta']['scoring_note'][:200]}...", normal_style))
+            story.append(Spacer(1, 0.2*inch))
             
             # Categories
             story.append(PageBreak())
@@ -305,8 +307,35 @@ elif page == "Rubric Editor":
             
             for category in st.session_state.rubric["categories"]:
                 if category["active"]:
-                    story.append(Paragraph(f"<b>{category['label']}</b> ({category['max_points']} pts)", heading_style))
-                    story.append(Paragraph(f"<i>{category['purpose']}</i>", normal_style))
+                    story.append(Paragraph(f"<b>{category['label']}</b> ({category['max_points']} pts)", subheading_style))
+                    story.append(Paragraph(f"<i>Purpose:</i> {category['purpose']}", normal_style))
+                    story.append(Paragraph(f"<i>Importance:</i> {category['importance']}", normal_style))
+                    
+                    # Score bands
+                    for band in category.get("score_bands", []):
+                        range_str = f"{band['range'][0]}-{band['range'][1]}"
+                        story.append(Paragraph(f"<b>{band['rating']}</b> ({range_str}): {band['description']}", normal_style))
+                    
+                    story.append(Spacer(1, 0.15*inch))
+            
+            # Red Flags
+            story.append(PageBreak())
+            story.append(Paragraph("Red Flags", heading_style))
+            
+            for flag in st.session_state.rubric["red_flags"]["flags"]:
+                if flag["active"]:
+                    story.append(Paragraph(f"<b>{flag['label']}</b> (Penalty: {flag['penalty']})", subheading_style))
+                    story.append(Paragraph(flag['description'], normal_style))
+                    story.append(Spacer(1, 0.1*inch))
+            
+            # Bonuses
+            story.append(PageBreak())
+            story.append(Paragraph("Bonuses", heading_style))
+            
+            for bonus in st.session_state.rubric["bonuses"]["items"]:
+                if bonus["active"]:
+                    story.append(Paragraph(f"<b>{bonus['label']}</b> (+{bonus['points']} pts)", subheading_style))
+                    story.append(Paragraph(bonus['description'], normal_style))
                     story.append(Spacer(1, 0.1*inch))
             
             doc.build(story)

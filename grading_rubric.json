@@ -212,7 +212,7 @@
             2
           ],
           "rating": "None",
-          "description": "Frequently interrupts, misses key details caller provided, asks questions already answered."
+          "description": "Frequently interrupts and continues speaking over caller, misses key details caller provided, asks questions already answered. NOTE: Brief overlaps where agent starts speaking, stops immediately when caller speaks, and defers are NOT interruptions."
         }
       ],
       "subscore": "human_element"
@@ -525,7 +525,7 @@
       "weight_pct": 5,
       "purpose": "Did the agent maintain appropriate professional standards throughout the call?",
       "importance": "Reflects on firm's brand and credibility.",
-      "evaluation_note": "Evaluate from language patterns, word choice, and formality level visible in transcript. Vocal tone cannot be assessed from text \u2014 note this limitation if relevant to the score. IMPORTANT: Do not penalize agents for stray words or fragments that appear to be transcription artifacts (e.g. isolated words mid-sentence with no clear context, garbled phrases, or text that appears mid-sentence without logical connection to the surrounding dialogue). If a phrase looks like a transcription error rather than something the agent actually said, do not score it negatively.",
+      "evaluation_note": "Evaluate from language patterns, word choice, and formality level visible in transcript. Vocal tone cannot be assessed from text \u2014 note this limitation if relevant to the score. IMPORTANT: Do not penalize agents for stray words or fragments that appear to be transcription artifacts (e.g. isolated words mid-sentence with no clear context, garbled phrases, or text that appears mid-sentence without logical connection to the surrounding dialogue). If a phrase looks like a transcription error rather than something the agent actually said, do not score it negatively. Do not penalize agents who inturrupt a client but backtrack/apologize afterwards.",
       "score_bands": [
         {
           "range": [
@@ -641,7 +641,7 @@
             15
           ],
           "rating": "Exceptional",
-          "description": "Perfect compliance \u2014 all required disclosures made, no legal advice given, appropriate boundaries maintained.",
+          "description": "Perfect compliance \u2014 all required disclosures made, no legal or medical advice given, appropriate boundaries maintained.",
           "example_phrases": [
             "This call is being recorded for quality purposes.",
             "I can't give you legal advice, but I can connect you with one of our attorneys who can.",
