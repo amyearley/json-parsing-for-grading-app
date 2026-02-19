@@ -129,16 +129,19 @@ elif page == "Rubric Editor":
     with tab2:
         st.subheader("Categories")
         
-        # Calculate subscore totals
-        logistics_total = sum(cat["max_points"] for cat in st.session_state.rubric["categories"] if cat["active"] and cat["subscore"] == "logistics")
-        human_element_total = sum(cat["max_points"] for cat in st.session_state.rubric["categories"] if cat["active"] and cat["subscore"] == "human_element")
+        # Calculate subscore totals (each active category = 5 points max on 1-5 scale)
+        logistics_categories = [cat for cat in st.session_state.rubric["categories"] if cat["active"] and cat["subscore"] == "logistics"]
+        human_element_categories = [cat for cat in st.session_state.rubric["categories"] if cat["active"] and cat["subscore"] == "human_element"]
+        
+        logistics_max = len(logistics_categories) * 5  # 5 points per category
+        human_element_max = len(human_element_categories) * 5
         
         # Display subscore summary
         col1, col2 = st.columns(2)
         with col1:
-            st.metric("Logistics Total", f"{logistics_total} pts")
+            st.metric("🔵 Logistics", f"{logistics_max} pts max")
         with col2:
-            st.metric("Human Element Total", f"{human_element_total} pts")
+            st.metric("🟢 Human Element", f"{human_element_max} pts max")
         
         st.divider()
         
@@ -151,7 +154,7 @@ elif page == "Rubric Editor":
             status = "✓ Active" if category["active"] else "○ Inactive"
             
             with st.expander(f"{badge_color} {category['label']} — {status}"):
-                col1, col2, col3 = st.columns(3)
+                col1, col2 = st.columns(2)
                 
                 with col1:
                     category["active"] = st.checkbox(
@@ -159,22 +162,8 @@ elif page == "Rubric Editor":
                         value=category["active"],
                         key=f"cat_active_{idx}"
                     )
-                    category["max_points"] = st.number_input(
-                        "Max Points",
-                        value=category["max_points"],
-                        min_value=1,
-                        key=f"cat_max_{idx}"
-                    )
                 
                 with col2:
-                    category["weight_pct"] = st.number_input(
-                        "Weight %",
-                        value=category["weight_pct"],
-                        min_value=0,
-                        key=f"cat_weight_{idx}"
-                    )
-                
-                with col3:
                     category["subscore"] = st.selectbox(
                         "Subscore",
                         ["logistics", "human_element"],
