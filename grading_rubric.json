@@ -25,7 +25,7 @@
         {
           "score": 4,
           "rating": "Strong",
-          "description": "Specific acknowledgment with emotional validation, no name used. Timely acknowledgment."
+          "description": "Specific acknowledgment with small emotional validation, no name used. Timely acknowledgment."
         },
         {
           "score": 3,
@@ -84,7 +84,7 @@
       "label": "Active Listening",
       "active": true,
       "subscore": "human_element",
-      "purpose": "Does the agent demonstrate they are truly listening?",
+      "purpose": "Does the agent demonstrate they are truly listening? If the agent interrupts, do they backtrack and let the caller speak?",
       "importance": "Directly impacts information quality and caller trust.",
       "score_bands": [
         {
@@ -154,7 +154,7 @@
       "label": "Reassurance & Support",
       "active": true,
       "subscore": "human_element",
-      "purpose": "Does the agent provide comfort and confidence about the process and the firm?",
+      "purpose": "Does the agent provide comfort and confidence about the process or the firm?",
       "importance": "Builds confidence in firm and process.",
       "score_bands": [
         {
@@ -265,7 +265,7 @@
         {
           "score": 5,
           "rating": "Exceptional",
-          "description": "Specific timeline given, explains attorney review process, confirms caller's action items, states who will contact them and when."
+          "description": "Specific timeline given, explains attorney review process, confirms caller's action items if any, states who will contact them and when."
         },
         {
           "score": 4,
@@ -305,7 +305,7 @@
         {
           "score": 4,
           "rating": "Strong",
-          "description": "Professional throughout with minor lapses (occasional 'um', 'like')."
+          "description": "Professional throughout with moderate filler lapses (occasional 'um', 'like')."
         },
         {
           "score": 3,
@@ -475,7 +475,7 @@
         {
           "score": 5,
           "rating": "Exceptional",
-          "description": "Asked detailed injury questions, probed for severity, documented treatment thoroughly, showed appropriate concern for serious injuries."
+          "description": "Asked injury questions, probed for severity when necessary, documented treatment thoroughly, showed appropriate concern for serious injuries."
         },
         {
           "score": 4,
@@ -625,7 +625,7 @@
         "id": "inappropriate_disclosure_or_legal_advice",
         "label": "Inappropriate disclosure / giving legal advice",
         "active": true,
-        "description": "Agent gives legal advice (predicting outcome, telling caller what to do legally) or makes promises about results.",
+        "description": "Agent gives legal/medical advice (predicting outcome, telling caller what to do legally, recommending treatment) or makes promises about results.",
         "penalty": -2,
         "subscore": "logistics"
       },
@@ -655,7 +655,7 @@
         "id": "exceptional_empathy_and_rapport",
         "label": "Exceptional empathy and rapport",
         "active": true,
-        "description": "Agent demonstrated genuinely exceptional empathy, personal connection, or rapport-building that went above and beyond normal expectations.",
+        "description": "Agent demonstrated genuinely exceptional empathy, personal connection, or rapport-building that went above and beyond normal expectations. Agent used caller's name when appropriate to build rapport.",
         "points": 1,
         "subscore": "human_element"
       },
