@@ -1,1132 +1,584 @@
 {
   "_meta": {
     "firm": "Your Firm Name",
-    "rubric_name": "Complete Call Quality Rubric \u2014 Personal Injury Intake",
-    "version": "2.2",
-    "effective_date": "2026-02-17",
+    "rubric_name": "Call Quality Rubric — Personal Injury Intake",
+    "version": "3.0",
+    "effective_date": "2026-02-18",
     "last_updated": "2026-02-18",
-    "normalization": "Scores are split into two independent subscores \u2014 Logistics and Human Element \u2014 each normalized to 0\u2013100. Logistics (max 80 raw pts): sum of logistics category scores + logistics red flag deductions + logistics bonus points, divided by 80, \u00d7 100. Human Element (max 100 raw pts): sum of human element category scores + timing penalty + human element red flag deductions + human element bonus points (capped at +10), divided by 100, \u00d7 100. There is no single composite score. Subscore math is computed by the grading system, not by Claude.",
-    "total_raw_points_possible": 180,
-    "scoring_note": "Sentiment polarity of agent language must NOT be used to infer quality. Phrases like 'I'm so sorry', 'I apologize', 'That must have been painful' score negatively in sentiment analysis but represent POSITIVE empathy behaviors and should be rewarded accordingly. SCORING FLOOR: A representative who successfully gathers all required case information AND maintains professional, respectful conduct throughout the call should receive a normalized score of at least 70 (Meets Expectations). Scores below 70 must be justified by specific, documentable failures \u2014 not merely by the absence of exceptional empathy or rapport-building skills.",
-    "logistics_max_raw": 80,
-    "human_element_max_raw": 100
+    "scoring_system": "Each category scored 1-5 (Exceptional=5, Strong=4, Adequate=3, Minimal=2, None=1). Subscores calculated as: (sum of category scores / max possible) × 100.",
+    "scoring_note": "Sentiment polarity of agent language must NOT be used to infer quality. Phrases like 'I'm so sorry', 'I apologize', 'That must have been painful' are POSITIVE empathy behaviors and should be rewarded accordingly. SCORING FLOOR: A representative who successfully gathers all required case information AND maintains professional, respectful conduct throughout should receive at least a 3 (Adequate) on each subscore. Scores below 3 must be justified by specific, documentable failures — not merely by the absence of exceptional empathy."
   },
   "categories": [
     {
       "id": "acknowledgment_of_situation",
       "label": "Acknowledgment of Situation",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "human_element",
       "purpose": "Does the agent explicitly recognize what happened to the caller?",
       "importance": "First impression sets tone for entire call.",
-      "timing_requirement": {
-        "rule": "Must acknowledge within 90 seconds of caller explaining situation.",
-        "penalty_if_late": -2
-      },
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Specific acknowledgment with emotional validation AND uses caller's name.",
-          "example_phrases": [
-            "I'm so sorry to hear you were injured in that accident, [Name]. That must have been really frightening.",
-            "That sounds incredibly difficult, [Name]. I'm so glad you called us."
-          ]
+          "description": "Specific acknowledgment with emotional validation AND uses caller's name. Acknowledges within 90 seconds."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
-          "description": "Specific acknowledgment with emotional validation, no name used.",
-          "example_phrases": [
-            "I'm so sorry to hear about your accident. That must have been very scary.",
-            "I can only imagine how stressful this has been for you."
-          ]
+          "description": "Specific acknowledgment with emotional validation, no name used. Timely acknowledgment."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
-          "description": "General acknowledgment without emotional depth.",
-          "example_phrases": [
-            "I understand you were in an accident.",
-            "OK, I'm sorry to hear that."
-          ]
+          "description": "General acknowledgment without emotional depth, or slightly delayed."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
-          "description": "Delayed or very brief acknowledgment \u2014 jumps to questions first.",
-          "example_phrases": [
-            "OK, let me get your information.",
-            "Alright, what happened?"
-          ]
+          "description": "Very brief acknowledgment or jumps to questions immediately."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
-          "description": "No acknowledgment \u2014 fully transactional from the start.",
-          "example_phrases": [
-            "What is your name?",
-            "Can I get your phone number?"
-          ]
+          "description": "No acknowledgment — fully transactional from the start."
         }
-      ],
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "validation_of_feelings_and_pain",
       "label": "Validation of Feelings & Pain",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "human_element",
       "purpose": "Does the agent validate the caller's emotional or physical state?",
       "importance": "Callers who feel heard are more likely to sign.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Multiple specific validations throughout the call, tailored to what caller actually said.",
-          "example_phrases": [
-            "That sounds incredibly painful.",
-            "I can hear how difficult this has been for you.",
-            "You have every right to be frustrated \u2014 you did everything right and the insurance company let you down."
-          ]
+          "description": "Multiple specific validations throughout the call, tailored to what caller actually said."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
-          "description": "At least one clear, specific validation during the call.",
-          "example_phrases": [
-            "I'm sure this has been very stressful.",
-            "That's completely understandable \u2014 dealing with insurance companies is exhausting."
-          ]
+          "description": "At least one clear, specific validation during the call."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
-          "description": "Generic or formulaic validation \u2014 present but not meaningful.",
-          "example_phrases": [
-            "I understand.",
-            "I hear you.",
-            "OK, I get it."
-          ]
+          "description": "Generic or formulaic validation — present but not particularly meaningful."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
-          "description": "Validation is absent or the agent changes topic when caller expresses emotion."
+          "description": "Validation is absent or agent changes topic when caller expresses emotion."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
-          "description": "Dismissive \u2014 agent interrupts or minimizes caller's feelings."
+          "description": "Dismissive — agent interrupts or minimizes caller's feelings."
         }
-      ],
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "active_listening",
       "label": "Active Listening",
       "active": true,
-      "max_points": 15,
-      "weight_pct": 8,
+      "subscore": "human_element",
       "purpose": "Does the agent demonstrate they are truly listening?",
       "importance": "Directly impacts information quality and caller trust.",
-      "what_to_look_for": [
-        "Verbal cues: 'I hear you,' 'That makes sense,' 'Tell me more about that'",
-        "Paraphrasing/reflection: Restates what caller said in own words",
-        "Not interrupting: Lets caller finish emotional or detailed statements",
-        "Building on information: References details mentioned earlier in the call",
-        "Clarifying questions: Asks follow-ups that show they absorbed what was said"
-      ],
       "score_bands": [
         {
-          "range": [
-            13,
-            15
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "5 or more clear listening indicators \u2014 paraphrases multiple times, references earlier details, never interrupts.",
-          "example_phrases": [
-            "So just to confirm \u2014 your father was driving in slow traffic and the other driver cut in aggressively and hit the left side, correct?",
-            "You mentioned earlier that the insurance denied the claim \u2014 let me make sure I have that documented correctly."
-          ]
+          "description": "5+ clear listening indicators — paraphrases multiple times, references earlier details, never interrupts (brief overlaps where agent defers don't count)."
         },
         {
-          "range": [
-            10,
-            12
-          ],
+          "score": 4,
           "rating": "Strong",
-          "description": "3\u20134 clear listening indicators."
+          "description": "3-4 clear listening indicators — paraphrases, builds on information, good follow-ups."
         },
         {
-          "range": [
-            6,
-            9
-          ],
+          "score": 3,
           "rating": "Adequate",
-          "description": "1\u20132 listening indicators."
+          "description": "1-2 listening indicators — some reflection or follow-up questions."
         },
         {
-          "range": [
-            3,
-            5
-          ],
+          "score": 2,
           "rating": "Minimal",
-          "description": "Mostly reads from a script \u2014 does not reflect or build on what caller says."
+          "description": "Mostly reads from script — does not reflect or build on what caller says."
         },
         {
-          "range": [
-            0,
-            2
-          ],
+          "score": 1,
           "rating": "None",
-          "description": "Frequently interrupts and continues speaking over caller, misses key details caller provided, asks questions already answered. NOTE: Brief overlaps where agent starts speaking, stops immediately when caller speaks, and defers are NOT interruptions."
+          "description": "Frequently interrupts and continues speaking over caller, misses key details, asks questions already answered."
         }
-      ],
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "patience_with_emotional_callers",
       "label": "Patience with Emotional Callers",
       "active": true,
-      "max_points": 15,
-      "weight_pct": 8,
+      "subscore": "human_element",
       "purpose": "How does the agent handle distressed, angry, upset, or slow callers?",
       "importance": "Critical for personal injury callers who are often traumatized.",
       "score_bands": [
         {
-          "range": [
-            13,
-            15
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Allows venting without redirecting, never rushes, maintains warm tone, personalizes patience.",
-          "example_phrases": [
-            "Take your time, I'm here.",
-            "No rush at all \u2014 whenever you're ready.",
-            "It's OK, that happens to everyone."
-          ]
+          "description": "Allows venting without redirecting, never rushes, maintains warm tone, personalizes patience."
         },
         {
-          "range": [
-            10,
-            12
-          ],
+          "score": 4,
           "rating": "Strong",
           "description": "Does not escalate, stays professional, waits for caller without audible impatience."
         },
         {
-          "range": [
-            6,
-            9
-          ],
+          "score": 3,
           "rating": "Adequate",
           "description": "Generally patient but redirects caller back to script a bit quickly."
         },
         {
-          "range": [
-            3,
-            5
-          ],
+          "score": 2,
           "rating": "Minimal",
-          "description": "Audibly or verbally rushed \u2014 interrupts venting, redirects before caller is done."
+          "description": "Audibly or verbally rushed — interrupts venting, redirects before caller is done."
         },
         {
-          "range": [
-            0,
-            2
-          ],
+          "score": 1,
           "rating": "None",
           "description": "Defensive, irritated, or dismissive tone with distressed caller."
         }
-      ],
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "reassurance_and_support",
       "label": "Reassurance & Support",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "human_element",
       "purpose": "Does the agent provide comfort and confidence about the process and the firm?",
       "importance": "Builds confidence in firm and process.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Multiple specific reassurances that mention the firm's ability to help and normalize caller's situation.",
-          "example_phrases": [
-            "You did the right thing by calling us.",
-            "We handle these types of cases all the time \u2014 you're not alone in this.",
-            "The insurance companies pull this move constantly, which is exactly why we exist.",
-            "You're in good hands."
-          ]
+          "description": "Multiple specific reassurances that mention the firm's ability to help and normalize caller's situation."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
-          "description": "At least one genuine reassurance that positions the firm as an advocate.",
-          "example_phrases": [
-            "We're going to help you figure this out.",
-            "This is what we do \u2014 don't worry."
-          ]
+          "description": "At least one genuine reassurance that positions the firm as an advocate."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
-          "description": "Scripted or generic reassurance \u2014 present but lacks warmth or specificity.",
-          "example_phrases": [
-            "We'll take a look at your case.",
-            "Someone will get back to you."
-          ]
+          "description": "Scripted or generic reassurance — present but lacks warmth or specificity."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
-          "description": "Reassurance is absent or buried \u2014 caller left uncertain about next steps."
+          "description": "Reassurance is absent or buried — caller left uncertain about next steps."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
           "description": "No reassurance offered at any point in the call."
         }
-      ],
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "appropriate_pacing",
       "label": "Appropriate Pacing",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "human_element",
       "purpose": "Does the agent match their pace and tone to the caller's emotional and cognitive state?",
       "importance": "Affects caller comfort and comprehension.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Noticeably slows down for confused or upset callers; adjusts to elderly, non-native speakers, or traumatized callers; uses silence effectively.",
-          "example_phrases": [
-            "Stay on the line with me \u2014 let me walk you through this step by step.",
-            "Take your time, there's no rush."
-          ]
+          "description": "Noticeably slows down for confused or upset callers; adjusts to elderly, non-native speakers, or traumatized callers; uses silence effectively."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
-          "description": "Generally appropriate pace \u2014 not rushed, follows caller's lead."
+          "description": "Generally appropriate pace — not rushed, follows caller's lead."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
-          "description": "Somewhat rushed but not egregious \u2014 pace doesn't match caller's emotional state."
+          "description": "Somewhat rushed but not egregious — pace doesn't perfectly match caller's emotional state."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
-          "description": "Clearly rushed \u2014 fires questions rapidly, doesn't allow processing time."
+          "description": "Clearly rushed — fires questions rapidly, doesn't allow processing time."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
-          "description": "Rushed throughout \u2014 caller sounds overwhelmed or confused as a result."
+          "description": "Rushed throughout — caller sounds overwhelmed or confused as a result."
         }
-      ],
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "information_gathering_quality",
       "label": "Information Gathering Quality",
       "active": true,
-      "max_points": 15,
-      "weight_pct": 8,
+      "subscore": "logistics",
       "purpose": "Did the agent collect all critical case details effectively?",
       "importance": "Missing information costs the firm time and money.",
       "score_bands": [
         {
-          "range": [
-            13,
-            15
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Collected all critical details, asked clarifying follow-ups, documented accurately, confirmed spelling/dates.",
-          "example_phrases": [
-            "Can you spell that last name for me?",
-            "And just to confirm, the accident was on August 13th, correct?",
-            "You mentioned witnesses \u2014 did you happen to get their contact information?"
-          ]
+          "description": "Collected all critical details, asked clarifying follow-ups, documented accurately, confirmed spelling/dates."
         },
         {
-          "range": [
-            10,
-            12
-          ],
+          "score": 4,
           "rating": "Strong",
-          "description": "Collected most critical details (8\u20139 of the key items), asked some follow-ups, minor gaps."
+          "description": "Collected most critical details (8-9 of key items), asked some follow-ups, minor gaps."
         },
         {
-          "range": [
-            6,
-            9
-          ],
+          "score": 3,
           "rating": "Adequate",
-          "description": "Got basic information (6\u20137 key items) but missed important details or didn't verify."
+          "description": "Got basic information (6-7 key items) but missed some details or didn't verify."
         },
         {
-          "range": [
-            3,
-            5
-          ],
+          "score": 2,
           "rating": "Minimal",
-          "description": "Significant gaps in information (4\u20135 key items), didn't ask follow-ups when needed."
+          "description": "Significant gaps in information (4-5 key items), didn't ask follow-ups when needed."
         },
         {
-          "range": [
-            0,
-            2
-          ],
+          "score": 1,
           "rating": "None",
           "description": "Failed to collect critical case information (3 or fewer key items)."
         }
-      ],
-      "subscore": "logistics"
+      ]
     },
     {
       "id": "next_steps_clarity",
       "label": "Next Steps Clarity",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "logistics",
       "purpose": "Did the agent clearly explain what happens after this call?",
       "importance": "Reduces no-shows and caller confusion.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Specific timeline given, agent explains attorney review process, confirms caller's action items, states who will contact them and when.",
-          "example_phrases": [
-            "Here's what happens next: we'll send you a text to upload photos, then our attorneys will review your case within 24\u201348 hours and call you back at this number.",
-            "I'm scheduling a callback for 4pm today so we can get your signature \u2014 does that work for you?"
-          ]
+          "description": "Specific timeline given, explains attorney review process, confirms caller's action items, states who will contact them and when."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
-          "description": "Clear next steps with general timeline, confirms action items.",
-          "example_phrases": [
-            "We'll review your case and someone will call you back soon.",
-            "You'll get a text from us to upload documents."
-          ]
+          "description": "Clear next steps with general timeline, confirms action items."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
-          "description": "Vague next steps \u2014 caller knows something will happen but not exactly what or when.",
-          "example_phrases": [
-            "We'll be in touch.",
-            "Someone will reach out."
-          ]
+          "description": "Vague next steps — caller knows something will happen but not exactly what or when."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
           "description": "Barely mentions next steps or only at very end of call."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
-          "description": "No explanation of what happens next \u2014 caller left hanging."
+          "description": "No explanation of what happens next — caller left hanging."
         }
-      ],
-      "subscore": "logistics"
+      ]
     },
     {
       "id": "professionalism_and_tone",
       "label": "Professionalism & Tone",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "human_element",
       "purpose": "Did the agent maintain appropriate professional standards throughout the call?",
       "importance": "Reflects on firm's brand and credibility.",
-      "evaluation_note": "Evaluate from language patterns, word choice, and formality level visible in transcript. Vocal tone cannot be assessed from text \u2014 note this limitation if relevant to the score. IMPORTANT: Do not penalize agents for stray words or fragments that appear to be transcription artifacts (e.g. isolated words mid-sentence with no clear context, garbled phrases, or text that appears mid-sentence without logical connection to the surrounding dialogue). If a phrase looks like a transcription error rather than something the agent actually said, do not score it negatively. Do not penalize agents who inturrupt a client but backtrack/apologize afterwards.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
           "description": "Consistently professional, appropriate formality for legal services, warm but not casual, no slang or excessive filler words."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
           "description": "Professional throughout with minor lapses (occasional 'um', 'like')."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
           "description": "Generally professional but some casual language or overly familiar tone."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
           "description": "Frequent casual language, slang, or inappropriately informal tone for legal services."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
-          "description": "Unprofessional \u2014 curse words, inappropriate comments, disrespectful tone."
+          "description": "Unprofessional — curse words, inappropriate comments, disrespectful tone."
         }
-      ],
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "call_control_and_efficiency",
       "label": "Call Control & Efficiency",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "logistics",
       "purpose": "Did the agent guide the conversation effectively without being rushed?",
       "importance": "Balances thoroughness with respect for caller's time.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Smoothly redirected tangents, covered all topics efficiently, natural transitions, appropriate call length for complexity.",
-          "example_phrases": [
-            "I want to make sure I understand that fully \u2014 let me ask a few more questions about the accident itself.",
-            "That's really helpful context. Now let me get some details about your injuries."
-          ]
+          "description": "Smoothly redirected tangents, covered all topics efficiently, natural transitions, appropriate call length for complexity."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
           "description": "Maintained good flow, covered necessary topics, reasonable length."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
           "description": "Some tangents or inefficiency, but got through required information."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
           "description": "Lost control of conversation, excessive tangents, didn't cover all necessary topics."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
-          "description": "No structure \u2014 call meandered without clear direction or was inappropriately short."
+          "description": "No structure — call meandered without clear direction or was inappropriately short."
         }
-      ],
-      "subscore": "logistics"
+      ]
     },
     {
       "id": "compliance_and_legal_accuracy",
       "label": "Compliance & Legal Accuracy",
       "active": true,
-      "max_points": 15,
-      "weight_pct": 8,
+      "subscore": "logistics",
       "purpose": "Did the agent follow all compliance requirements and avoid unauthorized practice of law?",
-      "importance": "CRITICAL \u2014 protects firm from liability and ethical violations.",
+      "importance": "CRITICAL — protects firm from liability and ethical violations.",
       "score_bands": [
         {
-          "range": [
-            13,
-            15
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Perfect compliance \u2014 all required disclosures made, no legal or medical advice given, appropriate boundaries maintained.",
-          "example_phrases": [
-            "This call is being recorded for quality purposes.",
-            "I can't give you legal advice, but I can connect you with one of our attorneys who can.",
-            "The attorney will be able to evaluate your case and discuss possible outcomes."
-          ]
+          "description": "Perfect compliance — all required disclosures made, no legal or medical advice given, appropriate boundaries maintained."
         },
         {
-          "range": [
-            10,
-            12
-          ],
+          "score": 4,
           "rating": "Strong",
           "description": "Compliant with minor technical issues (e.g., slightly awkward phrasing of disclaimer)."
         },
         {
-          "range": [
-            6,
-            9
-          ],
+          "score": 3,
           "rating": "Adequate",
           "description": "Generally compliant but missing one non-critical element."
         },
         {
-          "range": [
-            3,
-            5
-          ],
+          "score": 2,
           "rating": "Minimal",
           "description": "Multiple compliance issues or one moderate violation (e.g., vague prediction about case)."
         },
         {
-          "range": [
-            0,
-            2
-          ],
+          "score": 1,
           "rating": "None",
-          "description": "SERIOUS VIOLATION \u2014 gave legal advice, promised results, violated confidentiality, or other major compliance failure."
+          "description": "SERIOUS VIOLATION — gave legal advice, promised results, violated confidentiality, or other major compliance failure."
         }
-      ],
-      "subscore": "logistics"
+      ]
     },
     {
       "id": "objection_handling",
       "label": "Objection Handling",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "human_element",
       "purpose": "How effectively did the agent address caller's concerns, doubts, or hesitations?",
       "importance": "Determines whether hesitant callers convert.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Acknowledged concern empathetically, provided specific reassurance addressing the root issue, moved forward without being pushy.",
-          "example_phrases": [
-            "I understand you're worried about costs \u2014 we work on contingency, so you don't pay unless we win.",
-            "A lot of our clients felt the same way initially. What helped them was understanding that..."
-          ]
+          "description": "Acknowledged concern empathetically, provided specific reassurance addressing the root issue, moved forward without being pushy."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
           "description": "Addressed concern directly with reasonable explanation."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
           "description": "Acknowledged concern but didn't fully address it, or gave generic response."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
           "description": "Dismissed concern or became defensive."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
           "description": "Ignored objection entirely or pushed aggressively despite caller's clear hesitation."
         }
-      ],
-      "subscore": "human_element"
-    },
-    {
-      "id": "firm_value_proposition",
-      "label": "Firm Value Proposition",
-      "active": false,
-      "max_points": 10,
-      "weight_pct": 5,
-      "purpose": "Did the agent position the firm as the right choice for this caller?",
-      "importance": "Differentiates from other firms caller may be considering.",
-      "score_bands": [
-        {
-          "range": [
-            9,
-            10
-          ],
-          "rating": "Exceptional",
-          "description": "Explained firm's specific expertise, track record, or approach in a way that builds confidence without being salesy.",
-          "example_phrases": [
-            "We specialize in cases exactly like yours \u2014 we've helped hundreds of people in your situation.",
-            "What makes us different is that we don't settle quickly like some firms \u2014 we fight for full value."
-          ]
-        },
-        {
-          "range": [
-            7,
-            8
-          ],
-          "rating": "Strong",
-          "description": "Mentioned firm's strengths or positioned as experts.",
-          "example_phrases": [
-            "We've been handling personal injury cases for over 20 years."
-          ]
-        },
-        {
-          "range": [
-            4,
-            6
-          ],
-          "rating": "Adequate",
-          "description": "Generic positioning \u2014 mentioned firm name but didn't differentiate."
-        },
-        {
-          "range": [
-            2,
-            3
-          ],
-          "rating": "Minimal",
-          "description": "No attempt to position firm or build confidence in firm's capabilities."
-        },
-        {
-          "range": [
-            0,
-            1
-          ],
-          "rating": "None",
-          "description": "Undermined firm's credibility or made claims that sound false/exaggerated."
-        }
-      ],
-      "disabled_reason": "Representatives take calls on behalf of law firms and are not responsible for advertising or promoting any firm. This category is not applicable.",
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "trust_and_rapport_building",
       "label": "Trust & Rapport Building",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "human_element",
       "purpose": "Did the caller seem comfortable and trusting by the end of the call?",
       "importance": "Predicts likelihood caller will sign and stay engaged.",
-      "evaluation_note": "Assess primarily from CALLER behavior in the transcript \u2014 not agent language alone. Look for the caller's arc across the call.",
-      "what_to_look_for": [
-        "Caller opened up and shared sensitive details voluntarily",
-        "Caller's responses became more expansive or relaxed as call progressed",
-        "Caller thanked agent or expressed relief/gratitude",
-        "Caller asked questions showing engagement (not just answering robotically)",
-        "Caller seemed willing to move forward with next steps"
-      ],
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Clear evidence of trust \u2014 caller explicitly expressed feeling heard, grateful, or relieved.",
-          "example_phrases": [
-            "CALLER: Thank you so much, I feel so much better after talking to you.",
-            "CALLER: I'm so glad I called \u2014 no one else has listened to me like this."
-          ]
+          "description": "Clear evidence of trust — caller explicitly expressed feeling heard, grateful, or relieved."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
-          "description": "Good rapport \u2014 caller was cooperative and engaged throughout."
+          "description": "Good rapport — caller was cooperative and engaged throughout."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
-          "description": "Neutral rapport \u2014 caller answered questions but didn't show particular comfort or trust."
+          "description": "Neutral rapport — caller answered questions but didn't show particular comfort or trust."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
           "description": "Caller remained guarded or seemed uncomfortable."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
           "description": "Caller became more skeptical or withdrew during call."
         }
-      ],
-      "subscore": "human_element"
-    },
-    {
-      "id": "cultural_sensitivity_and_language_adaptation",
-      "label": "Cultural Sensitivity & Language Adaptation",
-      "active": false,
-      "max_points": 10,
-      "weight_pct": 5,
-      "purpose": "Did the agent adapt appropriately to caller's cultural or language needs?",
-      "importance": "Important for diverse caller base \u2014 enable if this is a frequent issue.",
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "injury_severity_assessment",
       "label": "Injury Severity Assessment",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "logistics",
       "purpose": "Did the agent ask appropriate questions about injuries and document severity?",
       "importance": "Ensures serious injuries are triaged appropriately.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Asked detailed injury questions, probed for severity, documented treatment thoroughly, showed appropriate concern for serious injuries.",
-          "example_phrases": [
-            "I'm so sorry to hear you needed surgery \u2014 that must have been really difficult.",
-            "Have you been able to work since the accident, or has this kept you out?",
-            "You mentioned neck pain \u2014 have you had any numbness or tingling in your arms?"
-          ]
+          "description": "Asked detailed injury questions, probed for severity, documented treatment thoroughly, showed appropriate concern for serious injuries."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
           "description": "Asked most key injury questions, documented basic treatment info."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
           "description": "Asked about injuries but didn't probe for details or severity."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
           "description": "Briefly asked about injuries but didn't document treatment or severity."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
           "description": "Failed to ask about injuries in a personal injury case OR showed no concern for serious injury."
         }
-      ],
-      "subscore": "logistics"
+      ]
     },
     {
       "id": "liability_and_case_viability_awareness",
       "label": "Liability & Case Viability Awareness",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "logistics",
       "purpose": "Did the agent identify liability factors and potential case viability issues?",
       "importance": "Prevents wasting time on non-viable cases.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Asked all key liability questions, identified red flags early, documented evidence availability.",
-          "example_phrases": [
-            "Do you know if a police report was filed at the scene?",
-            "Were there any witnesses who saw what happened?",
-            "Do you have the other driver's insurance information?"
-          ]
+          "description": "Asked all key liability questions, identified red flags early, documented evidence availability."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
           "description": "Asked most liability questions, documented basic fault determination."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
           "description": "Asked who was at fault but didn't probe for evidence or insurance."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
-          "description": "Minimal liability assessment \u2014 didn't identify obvious red flags."
+          "description": "Minimal liability assessment — didn't identify obvious red flags."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
-          "description": "Failed to assess liability at all OR missed obvious disqualifiers (e.g., no injuries in PI case)."
+          "description": "Failed to assess liability at all OR missed obvious disqualifiers."
         }
-      ],
-      "subscore": "logistics"
-    },
-    {
-      "id": "urgency_recognition_and_time_sensitive_issues",
-      "label": "Urgency Recognition & Time-Sensitive Issues",
-      "active": false,
-      "max_points": 10,
-      "weight_pct": 5,
-      "purpose": "Did the agent identify and communicate time-sensitive legal or medical issues?",
-      "importance": "Enable if statute of limitations or immediate medical treatment are frequent issues.",
-      "subscore": "human_element"
-    },
-    {
-      "id": "insurance_navigation_and_advocacy",
-      "label": "Insurance Navigation & Advocacy",
-      "active": false,
-      "max_points": 10,
-      "weight_pct": 5,
-      "purpose": "Did the agent effectively position the firm as an advocate against insurance tactics?",
-      "importance": "Positions firm as advocate against insurance companies.",
-      "score_bands": [
-        {
-          "range": [
-            9,
-            10
-          ],
-          "rating": "Exceptional",
-          "description": "Normalized insurance denial/delay tactics, positioned firm as expert in fighting insurance companies, validated caller's frustration with insurance.",
-          "example_phrases": [
-            "Insurance companies are infamous for denying valid claims \u2014 this is exactly why we exist.",
-            "They're trying to get you to give up, but we won't let that happen.",
-            "We deal with these tactics every day, and we know exactly how to respond."
-          ]
-        },
-        {
-          "range": [
-            7,
-            8
-          ],
-          "rating": "Strong",
-          "description": "Positioned firm as advocate, acknowledged insurance company behavior.",
-          "example_phrases": [
-            "We'll handle dealing with the insurance company from here."
-          ]
-        },
-        {
-          "range": [
-            4,
-            6
-          ],
-          "rating": "Adequate",
-          "description": "Asked about insurance but didn't position firm as advocate."
-        },
-        {
-          "range": [
-            2,
-            3
-          ],
-          "rating": "Minimal",
-          "description": "Didn't address insurance dynamics at all."
-        },
-        {
-          "range": [
-            0,
-            1
-          ],
-          "rating": "None",
-          "description": "Gave bad advice about insurance (e.g., 'just call them back and try again')."
-        }
-      ],
-      "disabled_reason": "Representatives are not trained in insurance navigation or sovereign immunity. This category is not applicable to their role.",
-      "subscore": "human_element"
+      ]
     },
     {
       "id": "documentation_accuracy",
       "label": "Documentation Accuracy",
       "active": true,
-      "max_points": 10,
-      "weight_pct": 5,
+      "subscore": "logistics",
       "purpose": "Did the agent accurately capture key details and verify spelling/dates?",
       "importance": "Prevents downstream errors and callbacks.",
       "score_bands": [
         {
-          "range": [
-            9,
-            10
-          ],
+          "score": 5,
           "rating": "Exceptional",
-          "description": "Confirmed spelling of all names, repeated back phone numbers and addresses, verified dates, corrected errors immediately.",
-          "example_phrases": [
-            "Can you spell that last name for me?",
-            "Let me repeat that address back to you to make sure I have it right.",
-            "Just to confirm \u2014 that was August 13th, 2025, correct?"
-          ]
+          "description": "Confirmed spelling of all names, repeated back phone numbers and addresses, verified dates, corrected errors immediately."
         },
         {
-          "range": [
-            7,
-            8
-          ],
+          "score": 4,
           "rating": "Strong",
           "description": "Asked for spelling on difficult names, confirmed at least one critical detail."
         },
         {
-          "range": [
-            4,
-            6
-          ],
+          "score": 3,
           "rating": "Adequate",
           "description": "Captured information but didn't verify or confirm."
         },
         {
-          "range": [
-            2,
-            3
-          ],
+          "score": 2,
           "rating": "Minimal",
           "description": "Made errors or didn't ask for clarification when needed."
         },
         {
-          "range": [
-            0,
-            1
-          ],
+          "score": 1,
           "rating": "None",
           "description": "Multiple errors or failed to capture critical information accurately."
         }
-      ],
-      "evaluation_note": "IMPORTANT: An agent asking clarifying questions to verify details \u2014 such as confirming a state, re-asking a location, or double-checking a spelling \u2014 is a POSITIVE documentation behavior and should be rewarded, not penalized. Only penalize actual errors or failures to verify when verification was clearly needed.",
-      "subscore": "logistics"
+      ]
     }
   ],
   "red_flags": {
-    "description": "Each triggered red flag deducts points from the final normalized score. Multiple red flags stack. Every deduction MUST be documented with a direct transcript quote.",
+    "description": "Each triggered red flag deducts 1 point from the relevant subscore. Multiple red flags stack. Every deduction MUST be documented with a direct transcript quote.",
     "flags": [
       {
         "id": "laughing_or_joking_inappropriately",
         "label": "Laughing or joking inappropriately",
         "active": true,
         "description": "Agent laughs, makes jokes, or uses casual humor while caller describes accident, injuries, or emotional distress.",
-        "penalty": -15,
-        "requires_quote": true,
+        "penalty": -1,
         "subscore": "human_element"
       },
       {
@@ -1134,8 +586,7 @@
         "label": "Blaming or doubting the caller",
         "active": true,
         "description": "Agent implies or directly states that caller may be at fault or exaggerating.",
-        "penalty": -15,
-        "requires_quote": true,
+        "penalty": -1,
         "subscore": "human_element"
       },
       {
@@ -1143,8 +594,7 @@
         "label": "Expressing skepticism about injuries",
         "active": true,
         "description": "Agent questions whether injuries are real or as serious as described.",
-        "penalty": -15,
-        "requires_quote": true,
+        "penalty": -1,
         "subscore": "human_element"
       },
       {
@@ -1152,8 +602,7 @@
         "label": "Rushing a clearly distressed caller",
         "active": true,
         "description": "Agent cuts off or rapidly redirects a caller who is crying, upset, or venting.",
-        "penalty": -10,
-        "requires_quote": true,
+        "penalty": -1,
         "subscore": "human_element"
       },
       {
@@ -1161,8 +610,7 @@
         "label": "Unexplained legal jargon",
         "active": true,
         "description": "Agent uses legal or insurance terms without explanation when caller is clearly confused.",
-        "penalty": -5,
-        "requires_quote": true,
+        "penalty": -1,
         "subscore": "logistics"
       },
       {
@@ -1170,8 +618,7 @@
         "label": "Audible impatience or irritation",
         "active": true,
         "description": "Agent sighs, uses curt tone, or otherwise signals frustration with caller.",
-        "penalty": -10,
-        "requires_quote": true,
+        "penalty": -1,
         "subscore": "human_element"
       },
       {
@@ -1179,8 +626,7 @@
         "label": "Inappropriate disclosure / giving legal advice",
         "active": true,
         "description": "Agent gives legal advice (predicting outcome, telling caller what to do legally) or makes promises about results.",
-        "penalty": -20,
-        "requires_quote": true,
+        "penalty": -2,
         "subscore": "logistics"
       },
       {
@@ -1188,17 +634,7 @@
         "label": "Failed to ask about injuries in PI case",
         "active": true,
         "description": "In a personal injury case, agent failed to ask whether caller or anyone else was injured.",
-        "penalty": -15,
-        "requires_quote": true,
-        "subscore": "logistics"
-      },
-      {
-        "id": "failed_to_check_insurance_coverage",
-        "label": "Failed to check insurance coverage",
-        "active": true,
-        "description": "Agent didn't ask about defendant's insurance OR caller's uninsured motorist coverage.",
-        "penalty": -10,
-        "requires_quote": true,
+        "penalty": -1,
         "subscore": "logistics"
       },
       {
@@ -1206,156 +642,61 @@
         "label": "Agent used profanity or inappropriate language",
         "active": true,
         "description": "Agent cursed or used language inappropriate for professional legal services.",
-        "penalty": -20,
-        "requires_quote": true,
+        "penalty": -2,
         "subscore": "human_element"
       }
     ]
   },
   "bonuses": {
-    "description": "Award bonus points for genuinely exceptional moments \u2014 not for doing the job correctly. Total bonus is capped at +10 per call regardless of how many are earned. Every bonus MUST be documented with a direct transcript quote.",
-    "max_total_bonus": 10,
+    "description": "Award bonus points for genuinely exceptional moments — not for doing the job correctly. Total bonus is capped at +1 per call. Every bonus MUST be documented with a direct transcript quote.",
+    "max_total_bonus": 1,
     "items": [
       {
-        "id": "uses_callers_name_naturally",
-        "label": "Uses caller's name naturally",
+        "id": "exceptional_empathy_and_rapport",
+        "label": "Exceptional empathy and rapport",
         "active": true,
-        "description": "Uses caller's first name 3+ times in a warm, natural way \u2014 not robotic.",
-        "points": 2,
-        "requires_quote": true,
+        "description": "Agent demonstrated genuinely exceptional empathy, personal connection, or rapport-building that went above and beyond normal expectations.",
+        "points": 1,
         "subscore": "human_element"
       },
       {
-        "id": "genuine_personal_connection",
-        "label": "Genuine personal connection",
+        "id": "exceptional_efficiency_and_clarity",
+        "label": "Exceptional efficiency and clarity",
         "active": true,
-        "description": "Agent shares a brief, appropriate personal moment that builds rapport (e.g., relating to a caller's frustration).",
-        "points": 3,
-        "requires_quote": true,
-        "subscore": "human_element"
-      },
-      {
-        "id": "normalizes_callers_experience",
-        "label": "Normalizes caller's experience",
-        "active": true,
-        "description": "Agent frames caller's experience as common and manageable \u2014 reduces shame or embarrassment.",
-        "points": 2,
-        "requires_quote": true,
-        "subscore": "human_element"
-      },
-      {
-        "id": "exceptional_next_step_clarity",
-        "label": "Exceptional next-step clarity",
-        "active": true,
-        "description": "Agent gives a detailed, confident explanation of exactly what happens next \u2014 caller leaves knowing the roadmap.",
-        "points": 3,
-        "requires_quote": true,
+        "description": "Agent demonstrated exceptional efficiency, clarity, or problem-solving that significantly exceeded normal expectations.",
+        "points": 1,
         "subscore": "logistics"
-      },
-      {
-        "id": "went_above_and_beyond",
-        "label": "Went above and beyond",
-        "active": true,
-        "description": "Agent did something extra that wasn't required but significantly helped the caller (e.g., researched something during call, offered to personally follow up).",
-        "points": 5,
-        "requires_quote": true,
-        "subscore": "human_element"
       }
     ]
   },
   "rating_scale": {
-    "description": "All final scores are on a 0\u2013100 scale after normalization.",
+    "description": "Subscores are calculated as: (sum of category scores / max possible) × 100. Both subscores are independent.",
     "tiers": [
       {
         "label": "Exceptional",
-        "range": [
-          90,
-          100
-        ],
-        "hr_action": "Eligible for performance recognition / bonus consideration",
-        "manager_note": "Flag for peer coaching \u2014 use call as training example"
+        "range": [90, 100],
+        "description": "Consistently excellent performance"
       },
       {
         "label": "Exceeds Expectations",
-        "range": [
-          80,
-          89
-        ],
-        "hr_action": "Standard positive performance note",
-        "manager_note": "Acknowledge in 1:1 \u2014 identify areas to push to Exceptional"
+        "range": [80, 89],
+        "description": "Strong performance with minor areas for growth"
       },
       {
         "label": "Meets Expectations",
-        "range": [
-          65,
-          79
-        ],
-        "hr_action": "No action required",
-        "manager_note": "Standard performance \u2014 monitor trend over time"
+        "range": [65, 79],
+        "description": "Adequate performance, meets baseline standards"
       },
       {
         "label": "Needs Improvement",
-        "range": [
-          50,
-          64
-        ],
-        "hr_action": "Verbal coaching session required within 5 business days",
-        "manager_note": "Document coaching in employee file \u2014 set 30-day follow-up review"
+        "range": [50, 64],
+        "description": "Below baseline, coaching recommended"
       },
       {
         "label": "Below Standard",
-        "range": [
-          35,
-          49
-        ],
-        "hr_action": "Written performance improvement plan (PIP) \u2014 HR must be notified",
-        "manager_note": "Schedule formal review \u2014 re-evaluate after 30 days of PIP"
-      },
-      {
-        "label": "Unsatisfactory",
-        "range": [
-          0,
-          34
-        ],
-        "hr_action": "Immediate escalation to HR and department head required",
-        "manager_note": "Do not delay \u2014 document all findings and initiate formal process"
+        "range": [0, 49],
+        "description": "Significant performance issues"
       }
     ]
-  },
-  "output_schema": {
-    "description": "Claude must return a JSON object matching this schema exactly. Do NOT compute or include normalized scores, rating tiers, HR actions, or any aggregate math \u2014 those are calculated by the grading system from the per-category scores you provide. Focus on scoring each active category accurately and documenting red flags and bonuses with quotes.",
-    "fields": {
-      "call_id": "string \u2014 from transcript metadata",
-      "agent_name": "string \u2014 from transcript metadata",
-      "call_duration": "string \u2014 from transcript metadata",
-      "rubric_version": "string \u2014 always '2.2-SPLIT'",
-      "categories": {
-        "description": "One entry per ACTIVE category.",
-        "per_category": {
-          "score": "integer \u2014 within the category's max_points range",
-          "rating": "string \u2014 the band label (Exceptional / Strong / Adequate / Minimal / None)",
-          "justification": "string \u2014 1\u20132 sentences citing specific transcript evidence",
-          "transcript_evidence": "string or null \u2014 direct quote from transcript supporting the score"
-        }
-      },
-      "timing_penalty": "integer \u2014 0 or -2 (acknowledgment_of_situation only; applies to human_element subscore)",
-      "red_flags_triggered": {
-        "description": "Array of triggered red flags. Empty array if none.",
-        "per_flag": {
-          "flag_id": "string",
-          "penalty": "integer (negative)",
-          "transcript_quote": "string \u2014 required, exact quote from transcript"
-        }
-      },
-      "bonuses_awarded": {
-        "description": "Array of bonuses awarded. Empty array if none. Total capped at +10.",
-        "per_bonus": {
-          "bonus_id": "string",
-          "points": "integer",
-          "transcript_quote": "string \u2014 required, exact quote from transcript"
-        }
-      },
-      "evaluation_notes": "string or null \u2014 any call-level observations not captured in category scores (e.g., very short call, caller hung up early, language barrier)"
-    }
   }
 }
