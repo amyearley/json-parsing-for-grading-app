@@ -125,7 +125,7 @@
         {
           "score": 5,
           "rating": "Exceptional",
-          "description": "Allows venting without redirecting, never rushes, maintains warm tone, personalizes patience."
+          "description": "Allows venting without redirecting, doesn't rush the caller, maintains warm tone, personalizes patience."
         },
         {
           "score": 4,
@@ -160,12 +160,12 @@
         {
           "score": 5,
           "rating": "Exceptional",
-          "description": "Multiple specific reassurances that mention the firm's ability to help and normalize caller's situation."
+          "description": "Multiple specific reassurances that mention the firm's ability to help or normalizes the caller's situation."
         },
         {
           "score": 4,
           "rating": "Strong",
-          "description": "At least one genuine reassurance that positions the firm as an advocate."
+          "description": "At least one genuine reassurance that positions the firm as an advocate or normalizes the caller's situation."
         },
         {
           "score": 3,
@@ -189,7 +189,7 @@
       "label": "Appropriate Pacing",
       "active": true,
       "subscore": "human_element",
-      "purpose": "Does the agent match their pace and tone to the caller's emotional and cognitive state?",
+      "purpose": "Does the agent match their pace and tone to the caller's emotional and cognitive state? If the agent interrupts, do they recover and allow the client to speak?",
       "importance": "Affects caller comfort and comprehension.",
       "score_bands": [
         {
@@ -375,7 +375,7 @@
         {
           "score": 4,
           "rating": "Strong",
-          "description": "Compliant with minor technical issues (e.g., slightly awkward phrasing of disclaimer)."
+          "description": "Compliant with minor technical issues (e.g., awkward phrasing of disclaimer)."
         },
         {
           "score": 3,
@@ -405,7 +405,7 @@
         {
           "score": 5,
           "rating": "Exceptional",
-          "description": "Acknowledged concern empathetically, provided specific reassurance addressing the root issue, moved forward without being pushy."
+          "description": "Acknowledged concern empathetically, provided reassurance addressing the root issue, moved forward without being pushy."
         },
         {
           "score": 4,
@@ -434,33 +434,33 @@
       "label": "Trust & Rapport Building",
       "active": true,
       "subscore": "human_element",
-      "purpose": "Did the caller seem comfortable and trusting by the end of the call?",
-      "importance": "Predicts likelihood caller will sign and stay engaged.",
+      "purpose": "Did the agent actively work to build trust and rapport? Did they use techniques like validation, reassurance, and personalization to make the caller feel heard and supported?",
+      "importance": "Agents who build rapport increase likelihood caller will sign and stay engaged.",
       "score_bands": [
         {
           "score": 5,
           "rating": "Exceptional",
-          "description": "Clear evidence of trust — caller explicitly expressed feeling heard, grateful, or relieved."
+          "description": "Agent consistently used validation, reassurance, and personalization throughout. Caller explicitly expressed feeling heard, grateful, or relieved — clear evidence agent's efforts succeeded."
         },
         {
           "score": 4,
           "rating": "Strong",
-          "description": "Good rapport — caller was cooperative and engaged throughout."
+          "description": "Agent demonstrated genuine effort to build rapport through empathy and reassurance. Caller responded positively and was cooperative."
         },
         {
           "score": 3,
           "rating": "Adequate",
-          "description": "Neutral rapport — caller answered questions but didn't show particular comfort or trust."
+          "description": "Agent made reasonable effort to build rapport but was somewhat formulaic or missed opportunities to deepen connection."
         },
         {
           "score": 2,
           "rating": "Minimal",
-          "description": "Caller remained guarded or seemed uncomfortable."
+          "description": "Agent made minimal effort to build rapport — was transactional or missed clear opportunities to validate or reassure caller."
         },
         {
           "score": 1,
           "rating": "None",
-          "description": "Caller became more skeptical or withdrew during call."
+          "description": "Agent actively undermined rapport through dismissiveness, impatience, or lack of empathy."
         }
       ]
     },

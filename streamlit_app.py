@@ -171,9 +171,10 @@ elif page == "Rubric Editor":
                         key=f"cat_subscore_{idx}"
                     )
                 
-                category["purpose"] = st.text_input(
-                    "Purpose",
+                category["purpose"] = st.text_area(
+                    "Purpose (can include multiple questions)",
                     value=category["purpose"],
+                    height=80,
                     key=f"cat_purpose_{idx}"
                 )
                 
@@ -183,6 +184,16 @@ elif page == "Rubric Editor":
                     height=80,
                     key=f"cat_importance_{idx}"
                 )
+                
+                # Score band descriptions
+                st.write("**Score Band Descriptions:**")
+                for band_idx, band in enumerate(category.get("score_bands", [])):
+                    band["description"] = st.text_area(
+                        f"{band['rating']} (Score {band['score']})",
+                        value=band["description"],
+                        height=60,
+                        key=f"cat_band_desc_{idx}_{band_idx}"
+                    )
     
     with tab3:
         st.subheader("Red Flags")
