@@ -296,14 +296,13 @@ elif page == "Rubric Editor":
             
             for category in st.session_state.rubric["categories"]:
                 if category["active"]:
-                    story.append(Paragraph(f"<b>{category['label']}</b> ({category['max_points']} pts)", subheading_style))
+                    story.append(Paragraph(f"<b>{category['label']}</b> (5 pts)", subheading_style))
                     story.append(Paragraph(f"<i>Purpose:</i> {category['purpose']}", normal_style))
                     story.append(Paragraph(f"<i>Importance:</i> {category['importance']}", normal_style))
                     
                     # Score bands
                     for band in category.get("score_bands", []):
-                        range_str = f"{band['range'][0]}-{band['range'][1]}"
-                        story.append(Paragraph(f"<b>{band['rating']}</b> ({range_str}): {band['description']}", normal_style))
+                        story.append(Paragraph(f"<b>{band['rating']}</b> (Score {band['score']}): {band['description']}", normal_style))
                     
                     story.append(Spacer(1, 0.15*inch))
             
